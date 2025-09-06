@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Buddy - Daily Expense Manager</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="logo">
+                <i class="fas fa-wallet"></i>
+                <h1>Money Buddy</h1>
+            </div>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="nav-items">
+            <a href="#" class="nav-item active" data-page="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-page="add-transaction">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add Transaction</span>
+            </a>
+            <a href="#" class="nav-item" data-page="history">
+                <i class="fas fa-history"></i>
+                <span>History</span>
+            </a>
+            <a href="#" class="nav-item" data-page="categories">
+                <i class="fas fa-tags"></i>
+                <span>Categories</span>
+            </a>
+            <a href="#" class="nav-item" data-page="budgets">
+                <i class="fas fa-chart-pie"></i>
+                <span>Budgets</span>
+            </a>
+            <a href="#" class="nav-item" data-page="reports">
+                <i class="fas fa-chart-line"></i>
+                <span>Reports</span>
+            </a>
+            <a href="#" class="nav-item" data-page="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        
+        <!-- Dashboard Page -->
+        <div class="page active" id="dashboard">
+            <div class="page-header">
+                <h2>Dashboard</h2>
+                <p>Overview of your financial status</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon income">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalIncome">₹0</h3>
+                        <p>Total Income</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon expense">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalExpense">₹0</h3>
+                        <p>Total Expense</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon balance">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="currentBalance">₹0</h3>
+                        <p>Current Balance</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Recent Transactions</h3>
+                        <div id="recentTransactions"></div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Expense Distribution</h3>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="expenseChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Transaction Page -->
+        <div class="page" id="add-transaction">
+            <div class="page-header">
+                <h2>Add Transaction</h2>
+                <p>Record a new income or expense</p>
+            </div>
+            
+            <div class="form-container">
+                <form id="transactionForm" class="transaction-form">
+                    <div class="form-group">
+                        <label class="form-label">Transaction Type</label>
+                        <div class="toggle-buttons">
+                            <button type="button" class="toggle-btn active" data-type="expense">
+                                <i class="fas fa-minus"></i> Expense
+                            </button>
+                            <button type="button" class="toggle-btn" data-type="income">
+                                <i class="fas fa-plus"></i> Income
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="amount" class="form-label">Amount (₹)</label>
+                        <input type="number" id="amount" class="form-control" step="0.01" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category" class="form-label">Category</label>
+                        <select id="category" class="form-control" required>
+                            <option value="">Select a category</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" id="date" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="paymentMethod" class="form-label">Payment Method</label>
+                        <select id="paymentMethod" class="form-control" required>
+                            <option value="">Select payment method</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit Card">Debit Card</option>
+                            <option value="Digital Wallet">Digital Wallet</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" id="description" class="form-control" placeholder="Enter description">
+                    </div>
+                    
+                    <button type="submit" class="btn btn--primary btn--full-width">
+                        <i class="fas fa-save"></i> Save Transaction
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div class="page" id="history">
+            <div class="page-header">
+                <h2>Transaction History</h2>
+                <p>View and manage all transactions</p>
+            </div>
+            
+            <div class="filters-container">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label class="form-label">Search</label>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search descriptions...">
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Type</label>
+                        <select id="typeFilter" class="form-control">
+                            <option value="">All Types</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Category</label>
+                        <select id="categoryFilter" class="form-control">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="transactions-container">
+                <div id="transactionsList"></div>
+            </div>
+        </div>
+
+        <!-- Categories Page -->
+        <div class="page" id="categories">
+            <div class="page-header">
+                <h2>Categories</h2>
+                <p>Manage income and expense categories</p>
+            </div>
+            
+            <div class="categories-container">
+                <div class="category-section">
+                    <h3>Expense Categories</h3>
+                    <div id="expenseCategories" class="category-list"></div>
+                    <button class="btn btn--secondary" id="addExpenseCategory">
+                        <i class="fas fa-plus"></i> Add Expense Category
+                    </button>
+                </div>
+                
+                <div class="category-section">
+                    <h3>Income Categories</h3>
+                    <div id="incomeCategories" class="category-list"></div>
+                    <button class="btn btn--secondary" id="addIncomeCategory">
+                        <i class="fas fa-plus"></i> Add Income Category
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Budgets Page -->
+        <div class="page" id="budgets">
+            <div class="page-header">
+                <h2>Budget Management</h2>
+                <p>Set and track your monthly budgets</p>
+            </div>
+            
+            <div id="budgetsList" class="budgets-container"></div>
+        </div>
+
+        <!-- Reports Page -->
+        <div class="page" id="reports">
+            <div class="page-header">
+                <h2>Reports & Analytics</h2>
+                <p>Analyze your spending patterns</p>
+            </div>
+            
+            <div class="reports-grid">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Monthly Trends</h3>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="trendsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card__body">
+                        <h3>Category Breakdown</h3>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="page" id="settings">
+            <div class="page-header">
+                <h2>Settings</h2>
+                <p>Customize your app preferences</p>
+            </div>
+            
+            <div class="settings-container">
+                <div class="card">
+                    <div class="card__body">
+                        <h3>App Preferences</h3>
+                        <div class="form-group">
+                            <label class="form-label">Currency</label>
+                            <select id="currencySetting" class="form-control">
+                                <option value="₹">₹ (Rupees)</option>
+                                <option value="$">$ (Dollar)</option>
+                                <option value="€">€ (Euro)</option>
+                                <option value="£">£ (Pound)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Theme</label>
+                            <div class="toggle-buttons">
+                                <button type="button" class="toggle-btn" id="lightTheme">
+                                    <i class="fas fa-sun"></i> Light
+                                </button>
+                                <button type="button" class="toggle-btn" id="darkTheme">
+                                    <i class="fas fa-moon"></i> Dark
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="danger-zone">
+                            <h4>Danger Zone</h4>
+                            <button class="btn btn--outline" id="resetData">
+                                <i class="fas fa-trash"></i> Reset All Data
+                            </button>
+                            <button class="btn btn--primary" id="exportData">
+                                <i class="fas fa-download"></i> Export Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="fab">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- Modals -->
+    <div class="modal hidden" id="categoryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Category</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="categoryForm">
+                <div class="form-group">
+                    <label class="form-label">Category Name</label>
+                    <input type="text" id="categoryName" class="form-control" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn--secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Add Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal hidden" id="budgetModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Set Budget</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="budgetForm">
+                <div class="form-group">
+                    <label class="form-label">Category</label>
+                    <input type="text" id="budgetCategory" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Monthly Budget (₹)</label>
+                    <input type="number" id="budgetAmount" class="form-control" step="0.01" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn--secondary modal-close">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Save Budget</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
