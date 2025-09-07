@@ -1,31 +1,33 @@
-.navbar{
-        background-color:black;
-        border-radius:30px;
-      }
-      .navbar ul{
-        overflow:auto;
-      }
-      .navbar li{
-        float:left;
-        list-style:none;
-        margin: 13px 20px;
-      }
-      .navbar li a{
-        padding: 3px 3px;
-        text-decoration: none;
-        color:white;
-      }
-      .navbar li a:hover{
-        color:red;
-      }
-      .search{
-        float:right;
-        color:white;
-        padding:12px 75px;
-      }
-      .navbar input{
-        border: 2px solid blue;
-        border-radius:14px;
-        padding: 3px 17px;
-        width:170px;
+body{
+    margin: 0;
+    padding: 0;
+}
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 20%;
+}
+
+.navbar ul {
+    overflow: auto;
+    list-style-type: none;
+}
+
+.navbar li {
+    float: left;
+}
+
+.navbar p{
+    color: black;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    color: rgb(29, 46, 49);
+    font-weight: 550;
+}
+.navbar i{
+    margin: 25px;
+    color: rgba(33, 128, 141, 1);
+}
+hr{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
