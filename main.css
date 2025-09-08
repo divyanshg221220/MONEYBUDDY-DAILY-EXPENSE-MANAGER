@@ -13,9 +13,31 @@ body {
 .navbar {
     position: sticky;
     top: 0;
-    width: 20%;
+    max-width: 80vw;
+    justify-content: space-between;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    height: 90px;
 }
-
+nav button {
+    position:relative;
+    z-index: 10;
+    padding: 10px 20px;
+    font-weight: bold;
+    color: rgb(5, 82, 20);
+    background-color:rgb(245, 241, 239);
+    border-radius:10px;
+    border: 2px solid rgb(1, 42, 2);
+    cursor: pointer;
+    font-size: 15px;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+.navbar a:visited{
+    color: rgb(5, 82, 20);
+}
 .navbar ul {
     overflow: auto;
     list-style-type: none;
@@ -28,13 +50,22 @@ body {
 .navbar p {
     color: black;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 34px 1px 10px 1px;
+    padding : 10px;
     font-size: 20px;
     color: rgb(29, 46, 49);
     font-weight: 550;
 }
-
+.navbar p:hover{
+    cursor: pointer;
+}
+.navbar i:hover{
+    cursor: pointer;
+}
 .navbar i {
-    margin: 25px;
+    margin: 34px 0px 20px 0px;
+    padding: 10px 1px 10px 0px;
+    font-size: 30px;
     color: rgba(33, 128, 141, 1);
 }
 
@@ -67,6 +98,7 @@ hr {
 .wrapper .sidebar ul li:hover{
     background-color: rgb(213, 210, 210);
     border-radius: 10px;
+    cursor: pointer;
 }
 .wrapper .sidebar ul li:hover a{
     color: rgb(33, 37, 38);
